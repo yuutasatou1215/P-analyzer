@@ -3,17 +3,41 @@
 <head>
   <base href="/P-analyzer/">
   <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="P-Analyzer">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="p_analyzer">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
   <title>P-Analyzer</title>
+  <link rel="manifest" href="manifest.json">
+
   <script>
-    var flet = {
-      pyodide: true,
-      webRenderer: "html",
-      appPackageUrl: "app.tar.gz"
-    }
+    // The value below is injected by Python build script, do not edit.
+    var serviceWorkerVersion = null;
   </script>
-  <script src="python.js"></script>
+  <script src="flutter.js" defer></script>
 </head>
 <body>
-  <script src="flutter_bootstrap.js" async></script>
+  <script>
+    window.addEventListener('load', function(ev) {
+      // Download main.dart.js
+      _flutter.loader.loadEntrypoint({
+        entrypointUrl: "main.dart.js", // ここを相対パスに
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        },
+        onEntrypointLoaded: function(engineInitializer) {
+          engineInitializer.initializeEngine({
+            useColorEmoji: true
+          }).then(function(appRunner) {
+            appRunner.runApp();
+          });
+        }
+      });
+    });
+  </script>
 </body>
 </html>
